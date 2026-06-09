@@ -46,7 +46,7 @@ if not _bg_loaded:
     bg_image = pygame.Surface((WIDTH, HEIGHT))
     bg_image.fill((20, 30, 50))
 
-bg_scroll = 0.0   # single float, mod WIDTH — guarantees seamless tiling
+bg_scroll = 0.0   # single float, seamless tiling
 
 # ─── CUSTOMISATION ────────────────────────────────────────────────────────────
 TRAIL_COLORS   = {"CYAN": NEON_CYAN, "PINK": NEON_PINK}
@@ -178,7 +178,7 @@ def make_wall_chunk():
 def make_barrier():
     """
     Security checkpoint barrier: two posts + a warning-striped arm.
-    Wide, low obstacle — tests timing rather than jump height.
+    Wide, low obstacle, tests timing rather than jump height.
     """
     cols = random.randint(9, 14)
     rows = random.randint(5, 8)
@@ -261,7 +261,7 @@ class Player:
             self.frame_index = 0.0
 
     def update(self):
-        # Physics
+        # Physics and floor collision
         self.velocity_y += 0.6
         self.rect.y     += self.velocity_y
         if self.rect.bottom >= FLOOR_Y:
@@ -301,7 +301,7 @@ class Player:
                 glow_c = tuple(int(c * frac * 0.20) for c in color)
                 pygame.draw.circle(screen, glow_c, (sx, sy), glow_r)
 
-                # Small bright core — 1-3 px, fully fades out at tail
+                # trail fades out
                 core_r = max(1, int(3 * frac))
                 core_c = tuple(int(c * frac) for c in color)
                 pygame.draw.circle(screen, core_c, (sx, sy), core_r)
@@ -412,7 +412,7 @@ while running:
         draw_text(f"HIGH SCORE: {high_score}", NEON_CYAN, WIDTH//2 -  90, 220)
         draw_text("[SPACE] TO REBOOT",         WHITE,     WIDTH//2 - 110, 300)
 
-    pygame.display.flip()
+    pygame.display.flip() # Updates the screen with everything drawn
 
-pygame.quit()
+pygame.quit() # quits the game when the loop ends
 
