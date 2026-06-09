@@ -60,7 +60,7 @@ def load_game():
             with open(SAVE_FILE) as f:
                 d = json.load(f)
                 high_score     = d.get("high_score", 0)
-                selected_trail = d.get("selected_trail", "CYAN")
+                selected_trail = d.get("selected_trail", "CYAN") 
         except Exception:
             pass
 
