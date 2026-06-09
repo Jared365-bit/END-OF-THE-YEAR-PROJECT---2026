@@ -115,10 +115,10 @@ def make_spikes():
     Medium-tall obstacle — requires a full jump.
     """
     n   = random.randint(3, 6)
-    sw  = 3                           # spike width in macro-pixels (must be odd)
-    sh  = random.randint(7, 11)       # spike height
-    bh  = 3                           # base plate height
-    gap = 1                           # gap between spikes
+    sw  = 3                           
+    sh  = random.randint(7, 11)       
+    bh  = 3                           
+    gap = 1                           
     cols = n * sw + (n - 1) * gap
     rows = sh + bh
     surf = pygame.Surface((cols * P, rows * P), pygame.SRCALPHA)
@@ -279,9 +279,6 @@ class Player:
         self.frame_index = (self.frame_index + self.anim_speed) % len(frames)
 
         # ── Trail ──────────────────────────────────────────────────────────────
-        # Advance the virtual world-x by game_speed each frame.
-        # When we draw, older points have a smaller world_x than the current
-        # one, so they render to the LEFT of the player — a proper motion trail.
         self._world_x += game_speed
         self.trail.append((self._world_x, float(self.rect.centery)))
         MAX_TRAIL = 8
@@ -299,7 +296,7 @@ class Player:
                 sx   = int(self.rect.centerx - (latest_wx - wx))
                 sy   = int(wy)
 
-                # Subtle glow halo — fades to nothing at the tail
+                
                 glow_r = max(1, int(5 * frac))
                 glow_c = tuple(int(c * frac * 0.20) for c in color)
                 pygame.draw.circle(screen, glow_c, (sx, sy), glow_r)
@@ -339,9 +336,7 @@ while running:
     clock.tick(60)
     screen.fill(BLACK)
 
-    # ── Seamless background scroll ─────────────────────────────────────────────
-    # bg_scroll goes 0 → WIDTH then wraps.  Two blits: at -bx and WIDTH-bx.
-    # At any bx value they are exactly WIDTH apart → zero-gap guarantee.
+    # ── background scroll ─────────────────────────────────────────────
     if current_state == "PLAYING":
         bg_scroll = (bg_scroll + game_speed * 0.35) % WIDTH
     bx = int(bg_scroll)
